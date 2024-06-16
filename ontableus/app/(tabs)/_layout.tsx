@@ -22,13 +22,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
         }}
       />
-        <Tabs.Screen
+        {/* <Tabs.Screen
         name="AllOrdersScreen"
         options={{
           title: 'order',
           tabBarIcon: ({ color }) => <Entypo name="shopping-cart" size={24} color={color} />,
         }}
-      />
+      /> */}
     </Tabs>
 
   
