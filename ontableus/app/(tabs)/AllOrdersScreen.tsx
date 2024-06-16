@@ -36,19 +36,19 @@ const AllOrdersScreen: React.FC = () => {
   }, []);
 
   const renderOrder = ({ item }: { item: Order }) => (
-    <View className="p-4 bg-white rounded-lg mb-4 shadow-md">
-      <Text className="text-lg font-semibold mb-2">Table {item.tableId}</Text>
+    <View >
+      <Text >Table {item.tableId}</Text>
       {item.items.map(product => (
-        <Text key={`${item.id}-${product.id}`} className="text-base">{`${product.name} - ${product.quantity} x $${product.price} = $${product.quantity * product.price}`}</Text>
+        <Text key={`${item.id}-${product.id}`} >{`${product.name} - ${product.quantity} x $${product.price} = $${product.quantity * product.price}`}</Text>
       ))}
-      <Text className="mt-2">Status: {item.status}</Text>
-      <Text className="font-bold mt-2">{`Total Amount: $${item.totalAmount}`}</Text>
+      <Text >Status: {item.status}</Text>
+      <Text >{`Total Amount: $${item.totalAmount}`}</Text>
     </View>
   );
 
   return (
-    <View className="flex-1 p-4 bg-gray-100">
-      <Text className="text-2xl font-bold text-center mb-4">All Table Orders</Text>
+    <View >
+      <Text >All Table Orders</Text>
       <FlatList
         data={orders}
         renderItem={renderOrder}
