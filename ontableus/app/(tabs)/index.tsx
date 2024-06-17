@@ -116,7 +116,7 @@ export default function Tab() {
   };
 
   const renderProduct = ({ item }: { item: Product }) => (
-    <Pressable 
+    <Pressable style={styles.btn}
       onPress={() => addProductToCart(selectedTable!, item)}
     >
       <Text >{`Add ${item.name} - ₹ ${item.price}`}</Text>
@@ -124,40 +124,43 @@ export default function Tab() {
   );
 
   return (
-    <View >
-      <Text >
+    <View  >
+      <Text style={styles.main_title} >
         Restaurant Order Tracking
       </Text>
-      <View >
+      <View style={styles.tablecard}>
         {tables.map(table => (
-          <Pressable key={table.id} onPress={() => setSelectedTable(table.id)} >
+          <Pressable key={table.id} onPress={() => setSelectedTable(table.id)} style={[
+            styles.tableicone, 
+            selectedTable === table.id && styles.activeTableicone // Apply the active style conditionally
+          ]} >
             <Image source={require('../../assets/images/table.png')} style={styles.image} />
-            <Text >Table {table.id}</Text>
+            <Text style={selectedTable===table.id && styles.activeTableicone} >Table {table.id}</Text>
           </Pressable>
         ))}
       </View>
 
       {selectedTable && (
-        <View >
-          <Text >Table {selectedTable} Order</Text>
+        <View  style={styles.tableview}>
+          <Text style={{fontWeight:'bold'}} >Table {selectedTable} Order</Text>
           <FlatList
             data={productList}
             renderItem={renderProduct}
             keyExtractor={item => item.id.toString()}
           />
-          <Pressable 
+          <Pressable style={styles.btnsubmit}
             onPress={() => submitOrder(selectedTable)}
             disabled={tables.find(table => table.id === selectedTable)?.cart.length === 0}
           >
-            <Text >Submit Order</Text>
+            <Text style={styles.btnsubmittext} >Submit Order</Text>
           </Pressable>
-          <Pressable 
+          <Pressable  style={styles.btnsubmit}
             onPress={() => updateOrder(selectedTable, { id: 6, name: 'Extra Item', price: 1 })}
             disabled={!tables.find(table => table.id === selectedTable)?.order}
           >
-            <Text >Add Extra Item to Order</Text>
+            <Text style={styles.btnsubmittext} >Add Extra Item to Order</Text>
           </Pressable>
-          <ScrollView >
+          <ScrollView style={styles.cartview}>
             <Text >Cart:</Text>
             {tables.find(table => table.id === selectedTable)?.cart.map((item, index) => (
               <Text key={index} >{`${item.name} - ${item.quantity} x ₹ ${item.price} = $${item.quantity * item.price}`}</Text>
@@ -185,4 +188,94 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  btn:{
+    padding: 10,
+    backgroundColor: 'lightblue',
+    margin: 10,
+  },
+  tableicone:{
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius:10,
+   fontWeight: 'bold',
+    shadowColor: "#000000",
+shadowOffset: {
+  width: 0,
+  height: 4,
+},
+shadowOpacity:  0.19,
+shadowRadius: 5.62,
+elevation: 6
+  },
+  tablecard:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    margin: 10,
+  },
+  main_title:{
+    padding: 15,
+    backgroundColor: '#1f1f1f',
+  borderBottomLeftRadius: 10,
+  borderBottomRightRadius: 10,
+    color: 'white',
+    fontWeight: 'bold',
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity:  0.19,
+    shadowRadius: 5.62,
+    elevation: 6
+  },
+  activeTableicone: {
+    // styles for the active table button, e.g., background color change
+    backgroundColor: '#ff8100', 
+    color:'white',// Example color
+    fontWeight:'bold'
+  },
+  cartview:{
+    padding: 10,
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius:10,
+   fontWeight: 'bold',
+    shadowColor: "#000000",
+shadowOffset: {
+  width: 0,
+  height: 4,
+},
+shadowOpacity:  0.19,
+shadowRadius: 5.62,
+elevation: 6
+
+  },
+  btnsubmit:{
+    padding: 10,
+    backgroundColor: '#ff8100',
+    margin: 10,
+    borderRadius:10,
+   fontWeight: 'bold',
+    shadowColor: "#000000",
+  },
+  btnsubmittext:{
+fontWeight: 'bold',
+color: 'white',
+  },
+  tableview:{
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius:10,
+   fontWeight: 'bold',
+    shadowColor: "#000000",
+shadowOffset: {
+  width: 0,
+  height: 4,
+},
+shadowOpacity:  0.19,
+shadowRadius: 5.62,
+elevation: 6
+  }
+  
+
 });
