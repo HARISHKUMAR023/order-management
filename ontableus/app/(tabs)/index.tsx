@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet, SafeAreaView,  StatusBar } from 'react-native';
 import { Image } from 'expo-image';
 import { firestore } from '@/firebaseConfig';
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
-
+import { ScrollView } from 'react-native-virtualized-view';
 interface Product {
   id: number;
   name: string;
@@ -41,21 +41,42 @@ export default function Tab() {
   const [selectedTable, setSelectedTable] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [productList] = useState<Product[]>([
-    { id: 1, name: 'Veg Momos', price: 70, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 2, name: 'Corn Momos', price: 80, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 3, name: 'Cold Coffee', price: 70, icon: require('../../assets/images/icone/pasta.png'), category: 'Coffees' },
-    { id: 4, name: 'Hot Coffee', price: 80, icon: require('../../assets/images/icone/pasta.png'), category: 'Coffees' },
+    { id: 1, name: 'Veg Momos', price: 70, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 2, name: 'Corn Momos', price: 80, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 3, name: 'Cold Coffee', price: 70, icon: require('../../assets/images/icone/coffee.png'), category: 'Signature' },
+    { id: 4, name: 'Hot Coffee', price: 80, icon: require('../../assets/images/icone/coffee.png'), category: 'Signature' },
     { id: 5, name: 'Pizza', price: 200, icon: require('../../assets/images/icone/pizza.png'), category: 'Main Course' },
     { id: 6, name: 'Burger', price: 40, icon: require('../../assets/images/icone/burger.png'), category: 'Main Course' },
     { id: 7, name: 'Pasta', price: 130, icon: require('../../assets/images/icone/pasta.png'), category: 'Main Course' },
     { id: 8, name: 'Salad', price: 45, icon: require('../../assets/images/icone/salad.png'), category: 'Starters' },
     { id: 9, name: 'Soda', price: 25, icon: require('../../assets/images/icone/soda.png'), category: 'Beverages' },
-    { id: 10, name: 'Panner Tikka Momos', price: 100, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 11, name: 'Mushroom Momos', price: 90, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 12, name: 'Chocolate Momos', price: 120, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 13, name: 'Chicken Momos', price: 100, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 14, name: 'Chicken Hariyali Momos', price: 110, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
-    { id: 15, name: 'Chicken Peri Peri', price: 110, icon: require('../../assets/images/icone/pasta.png'), category: 'Momos' },
+    { id: 10, name: 'Panner Tikka Momos', price: 100, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 11, name: 'Mushroom Momos', price: 90, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 12, name: 'Chocolate Momos', price: 120, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 13, name: 'Chicken Momos', price: 100, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 14, name: 'Chicken Hariyali Momos', price: 110, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 15, name: 'Chicken Peri Peri', price: 110, icon: require('../../assets/images/icone/momo.png'), category: 'Momos' },
+    { id: 16, name: 'Classic French Fries', price: 70, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+    { id: 17, name: 'Peri Peri ', price: 90, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+    { id: 18, name: 'Cheese Balls', price: 90, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+    { id: 19, name: 'Veg Nuggets', price: 90, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+    { id: 20, name: 'Chicken Nuggets', price: 120, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+    { id: 21, name: 'Crispy Chicken Strips', price: 100, icon: require('../../assets/images/icone/fried.png'), category: 'Fries' },
+   {id: 22, name: 'Caramel Coffee', price: 100, icon: require('../../assets/images/icone/coffee.png'), category: 'Signature' },
+   {id: 23, name: 'Hazelnut COffee', price: 100, icon: require('../../assets/images/icone/coffee.png'), category: 'Signature' },
+
+   {id: 24, name: 'Affogato Signature', price: 120, icon: require('../../assets/images/icone/coffee.png'), category: 'Signature' },
+   {id: 25, name: 'Blueberry', price: 90, icon: require('../../assets/images/icone/mojito.png'), category: 'MOJITO' },
+   {id: 26, name: 'Green apple', price: 90, icon: require('../../assets/images/icone/mojito.png'), category: 'MOJITO' },
+   {id: 27, name: 'virgin ', price: 90, icon: require('../../assets/images/icone/mojito.png'), category: 'MOJITO' },
+   {id: 28, name: 'Lime Mint ', price: 80, icon: require('../../assets/images/icone/mojito.png'), category: 'MOJITO' },
+   {id: 29, name: 'Strawberry ', price: 90, icon: require('../../assets/images/icone/mojito.png'), category: 'MOJITO' },
+   {id: 30, name: 'Classic Omelette ', price: 50, icon: require('../../assets/images/icone/mojito.png'), category: 'Bread Omelette' },
+   {id: 31, name: 'Cheese Omelette', price: 60, icon: require('../../assets/images/icone/mojito.png'), category: 'Bread Omelette' },
+   {id: 32, name: 'Chilly cheese ', price: 70, icon: require('../../assets/images/icone/mojito.png'), category: 'Bread Omelette' },
+   {id: 33, name: 'Double egg bread  ', price: 80, icon: require('../../assets/images/icone/mojito.png'), category: 'Bread Omelette' },
+
+
   ]);
 
   const categories = Array.from(new Set(productList.map(product => product.category)));
@@ -156,9 +177,10 @@ export default function Tab() {
   const filteredProducts = productList.filter(product => product.category === selectedCategory);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+    <SafeAreaView  >
       <StatusBar barStyle="light-content" backgroundColor="#ff8100" />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView nestedScrollEnabled={true} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.mainTitle}>Restaurant Order Tracking</Text>
         <View style={styles.tableCard}>
           {tables.map(table => (
@@ -175,6 +197,7 @@ export default function Tab() {
         {selectedTable && (
           <View style={styles.tableView}>
             <Text style={styles.tableTitle}>Table {selectedTable} Order</Text>
+           
             <FlatList
               horizontal
               data={categories}
@@ -182,6 +205,7 @@ export default function Tab() {
               keyExtractor={item => item}
               style={styles.categoryList}
             />
+          
             <FlatList
               data={filteredProducts}
               renderItem={renderProduct}
@@ -227,6 +251,7 @@ export default function Tab() {
         )}
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 }
 
