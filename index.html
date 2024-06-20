@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Product</title>
+  <!-- <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #ff8100;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #e67e22;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload Product</h2>
+    <form id="uploadForm">
+      <label for="name">Product Name:</label>
+      <input type="text" id="name" required />
+
+      <label for="price">Product Price:</label>
+      <input type="number" id="price" required />
+
+      <label for="category">Product Category:</label>
+      <input type="text" id="category" required />
+
+      <button id="button" type="submit">Upload</button>
+    </form>
+  </div>
+
+  <!-- <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDaDqK6DpYFMip13BrR_LmScVWKROA-qjI",
+        authDomain: "naturestore-36eae.firebaseapp.com",
+        projectId: "naturestore-36eae",
+        storageBucket: "naturestore-36eae.appspot.com",
+        messagingSenderId: "312266928390",
+        appId: "1:312266928390:web:06b3c7bb23eba6d7606e87"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+
+    // Form submission handler
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const price = parseFloat(document.getElementById('price').value);
+      const category = document.getElementById('category').value;
+
+      try {
+        const docRef = await db.collection('products').add({
+          name,
+          price,
+          category
+        });
+        console.log('Document written with ID:', docRef.id);
+        alert('Product uploaded successfully.');
+        document.getElementById('uploadForm').reset();
+      } catch (error) {
+        console.error('Error uploading product:', error);
+        alert('Failed to upload product.');
+      }
+    });
+  </script> -->
+  <!-- <script src="./index.js"></script> -->
+  <script  type="module">
+    // Import the functions you need from the SDKs you need
+    //import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"; -->
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDaDqK6DpYFMip13BrR_LmScVWKROA-qjI",
+      authDomain: "naturestore-36eae.firebaseapp.com",
+      databaseURL: "https://naturestore-36eae-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "naturestore-36eae",
+      storageBucket: "naturestore-36eae.appspot.com",
+      messagingSenderId: "312266928390",
+      appId: "1:312266928390:web:06b3c7bb23eba6d7606e87"
+    };
+  
+    // Initialize Firebase
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get a reference to Firestore
+    const db = firebase.firestore();
+
+
+    // Wait for the DOM to load
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add event listener to form submission
+      document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+  
+        // Get input values
+        const name = document.getElementById('name').value;
+        const price = parseFloat(document.getElementById('price').value);
+        const category = document.getElementById('category').value;
+  
+        // Save form data to Firestore
+        db.collection('products').add({
+          name: name,
+          price: price,
+          category: category
+        })
+        .then(function (docRef) {
+          console.log('Document written with ID:', docRef.id);
+          alert("Product uploaded successfully!");
+          // Optionally, reset the form
+          document.getElementById('uploadForm').reset();
+        })
+        .catch(function (error) {
+          console.error('Error uploading product:', error);
+          alert('Failed to upload product.');
+        });
+      });
+    });
+  </script>
+ 
+</body>
+</html>
